@@ -2,6 +2,7 @@ class Individuo:
     x = 0
     y = 0
     puntaje = 0
+    color = 0 #0. Blanco, 1. Negro, 2. Verde, 3. rojo
 
     def __init__(self, x, y, puntaje):
         self.x = x
@@ -19,6 +20,11 @@ class Individuo:
 
     def getY(self):
         return self.y
+    def setColor(self, color):
+        self.color = color
+
+    def getColor(self):
+        return self.color
 
     def setPuntaje(self, puntaje):
         self.puntaje = puntaje
