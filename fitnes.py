@@ -18,6 +18,22 @@ def revisarVecinos(x,y,lista):
             x2 += 1
       return puntaje
 """
+def revisarParedes(x,y,lista,Ppuntaje):
+      x2 = x-2
+      puntaje = Ppuntaje
+      while x2 < x+5:
+            y2 = y-2
+            while y2 != y+5:
+                  try:
+                        if lista[x2][y2].getColor1() == 1:
+                              return 0
+                        puntaje += lista[x2][y2].getPuntaje()
+                  except:
+                        ""
+                  y2 += 1
+            x2 += 1
+      return puntaje
+
 def revisarVecinos(x,y,lista):
       # x = 25, y = 25
       x2 = x-5
@@ -40,11 +56,8 @@ def fitness(lista):
             while y != len(lista[0]):
                   if lista[x][y].getColor() == 0:
                         puntaje = revisarVecinos(x,y,lista)
-<<<<<<< HEAD
+                        puntaje = revisarParedes(x,y,lista,puntaje)
                         lista[x][y].setPuntaje(lista[x][y].getPuntaje()+(puntaje/8000))
-=======
-                        lista[x][y].setPuntaje(lista[x][y].getPuntaje()+(puntaje/100))
->>>>>>> 531a9c7499769cae1f8e2fda744528cac0138497
                   y += 1
             x += 1
       return lista
