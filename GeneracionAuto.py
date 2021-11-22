@@ -16,6 +16,7 @@ def PrimeraGeneracion(cantIndividuos):
         x = randint(0,49)
         y = randint(0,49)
         individuo = Individuo(x, y, 0)
+        individuo.setPuntaje(randint(1,1000))
 
         if not (validarPosicion(listaIndividuos, individuo)):
             continue
