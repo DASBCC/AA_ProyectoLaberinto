@@ -19,6 +19,22 @@ def revisarVecinos(x,y,lista):
             x2 += 1
       return puntaje
 """
+def revisarParedes(x,y,lista,Ppuntaje):
+      x2 = x-2
+      puntaje = Ppuntaje
+      while x2 < x+5:
+            y2 = y-2
+            while y2 != y+5:
+                  try:
+                        if lista[x2][y2].getColor1() == 1:
+                              return 0
+                        puntaje += lista[x2][y2].getPuntaje()
+                  except:
+                        ""
+                  y2 += 1
+            x2 += 1
+      return puntaje
+
 def revisarVecinos(x,y,lista):
       # x = 25, y = 25
       x2 = x-5
