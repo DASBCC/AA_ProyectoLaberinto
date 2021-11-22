@@ -184,8 +184,8 @@ def seleccion(listaIndividuos):
       listaValores = normalizarValores(listaIndividuos)
       listaProbabilidades = generarDistribucion(listaValores)
       listaSelec = []
-      for i in range(len(listaIndividuos)):
-            listaSelec.append([])
+      #for i in range(len(listaIndividuos)):
+      #      listaSelec.append([])
       print(listaProbabilidades)
       for i in range(len(listaIndividuos)):
             j = 0
@@ -193,22 +193,66 @@ def seleccion(listaIndividuos):
             print(nRandom)
             for probabilidad in listaProbabilidades: 
                   if probabilidad[0] <= nRandom < probabilidad[1]:
-                        listaSelec[j].append(listaIndividuos[i])
+                        listaSelec.append(listaIndividuos[j])
                         break
                   j+=1
       return listaSelec
 
-#print(generarDistribucion([24,19,41,8,2,6]))
-print(seleccion([30,23,51,11,3,8,4,7,3,7,1,45,2]))
+def binarizar(decimal):
+    """
+    Funcionalidades: Convierte un numero a su forma binaria
+    Entradas: int decimal
+    Salidas: string con el número convertido a binario
+    """
+    binario = ''
+    while decimal // 2 != 0:
+        binario = str(decimal % 2) + binario
+        decimal = decimal // 2
+    return str(decimal) + binario
+
+def agregarCeros(num, cantDigitos):
+    """
+    Funcionalidades: Agrega los 0 a la izquierda faltantes en función a la cantidad de bits original del número
+    Entradas: int num, int cantDigitos
+    Salidas: string con el número final
+    """
+    numStr = str(num)
+    while (len(numStr) < cantDigitos):
+        numStr = "0" + numStr
+    return numStr
+
+def generarParejas(listaIndividuos):
+      listaParejas = []
+      for i in range(0,len(listaIndividuos),2):  
+            listaParejas.append(listaIndividuos[i:i+2])
+      return listaParejas
+
+def generarStringCruce(individuo):
+      binIndividuo = agregarCeros(binarizar(individuo.getX()), 6) + agregarCeros(binarizar(individuo.getY()), 6)
+      return binIndividuo
+
+def cruce(listaParejas):
+      nuevosIndiv = []
+      for pareja in listaParejas:
+            indiv1 = generarStringCruce(pareja[0])
+            indiv2 = generarStringCruce(pareja[1])
+            puntoCruce = random.randint(1,11)
+            print(puntoCruce)
+            nuevoIndiv1 = indiv1[0:puntoCruce] + indiv2[puntoCruce:]
+            nuevoIndiv2 = indiv2[0:puntoCruce] + indiv1[puntoCruce:]
+            nuevosIndiv.append(nuevoIndiv1)
+            nuevosIndiv.append(nuevoIndiv2)
+      return nuevosIndiv
+
+print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
+
+def generacion(listaIndividuos):
+      listaSelec = seleccion(listaIndividuos)
+      listaParejas = generarParejas(listaSelec)
+      return listaParejas
 
 
-
-
-
-
-
-
-
+print(generacion([30,23,51,11,3,8]))
 
 
 
