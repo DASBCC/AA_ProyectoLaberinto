@@ -2,6 +2,7 @@ from Individuo import *
 import numpy as np
 from PIL import Image
 from pruebasColores import pintarIndividuos
+import random
 """
 def revisarVecinos(x,y,lista):
       # x = 25, y = 25
@@ -40,10 +41,27 @@ def fitness(lista):
             while y != len(lista[0]):
                   if lista[x][y].getColor() == 0:
                         puntaje = revisarVecinos(x,y,lista)
+                        puntaje = revisarParedes(x,y,lista,puntaje)
                         lista[x][y].setPuntaje(lista[x][y].getPuntaje()+(puntaje/100))
                   y += 1
             x += 1
       return lista
+
+def revisarParedes(x,y,lista,Ppuntaje):
+      x2 = x-2
+      puntaje = Ppuntaje
+      while x2 < x+5:
+            y2 = y-2
+            while y2 != y+5:
+                  try:
+                        if lista[x2][y2].getColor1() == 1:
+                              return 0
+                        puntaje += lista[x2][y2].getPuntaje()
+                  except:
+                        ""
+                  y2 += 1
+            x2 += 1
+      return puntaje
                   
 def generarIndividuos(laberinto):
       lista = []
@@ -121,6 +139,51 @@ while i != len(lista[0]):
 
 
 
+#DISTRIBUCIÓN DE PROBABILIDADES
+
+def generarDistribucion(lista):
+      listaDist = []
+      for i in range(len(lista)):
+            listaDist.append([])
+
+      temp = 0
+      for i in range(len(lista)):
+            listaDist[i] = ((temp , temp + lista[i]))
+            temp = temp + lista[i]
+
+      return listaDist
+
+def normalizarValores(listaIndividuos):
+      total = 0
+      listaValores = []
+      for i in listaIndividuos:
+            total += i
+      for i in listaIndividuos:
+            listaValores.append((i / total))
+      return listaValores
+
+#print(normalizarValores([30,23,51,11,3,8]))
+
+def seleccion(listaIndividuos):
+      listaValores = normalizarValores(listaIndividuos)
+      listaProbabilidades = generarDistribucion(listaValores)
+      listaSelec = []
+      for i in range(len(listaIndividuos)):
+            listaSelec.append([])
+      print(listaProbabilidades)
+      for i in range(len(listaIndividuos)):
+            j = 0
+            nRandom = random.random()
+            print(nRandom)
+            for probabilidad in listaProbabilidades: 
+                  if probabilidad[0] <= nRandom < probabilidad[1]:
+                        listaSelec[j].append(listaIndividuos[i])
+                        break
+                  j+=1
+      return listaSelec
+
+#print(generarDistribucion([24,19,41,8,2,6]))
+print(seleccion([30,23,51,11,3,8,4,7,3,7,1,45,2]))
 
 
 
