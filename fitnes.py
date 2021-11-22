@@ -23,7 +23,7 @@ def fitness(lista):
             while y != len(lista[0]):
                   if lista[x][y].getColor() == 0:
                         puntaje = revisarVecinos(x,y,lista)
-                        lista[x][y].setPuntaje(lista[x][y].getPuntaje()+(puntaje/1000))
+                        lista[x][y].setPuntaje(lista[x][y].getPuntaje()+(puntaje/8000))
                   y += 1
             x += 1
       return lista
