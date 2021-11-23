@@ -4,7 +4,7 @@ from fitnes import Generaciones
 
 #VENTANA PRINCIPAL
 ventana = Tk()
-ventana.geometry("700x650")
+ventana.geometry("700x720")
 ventana.title("Proyecto: Laberinto")
 ventana.resizable(False,False)
 ventana.config(background="#212227")
@@ -98,6 +98,7 @@ def cargarLaberinto():
     boton2.config(state = 'normal')
     boton3.config(state = 'normal')
     entradaGen.config(state = 'normal')
+    entradaIndiv.config(state = 'normal')
     return
 
 def reiniciarCanvas():
@@ -108,7 +109,10 @@ def reiniciarCanvas():
     boton1.config(state = 'normal')
     boton2.config(state = 'disable')
     entradaGen.config(state = 'disable')
+    entradaIndiv.config(state = 'disable')
     boton3.config(state = 'disable')
+    entradaIndividuos.set(0)
+    entradaGeneraciones.set(0)
     return
 
 #CANVAS DE LAS IMÁGENES
@@ -154,6 +158,13 @@ entradaGen.place(x = 445, y = 520)
 entradaGen.config(state = 'disable')
 
 canvas.create_text(270, 485 ,fill="black",font="Times 20 italic bold", text="Cantidad de Generaciones:")
+
+entradaIndividuos = IntVar()
+entradaIndiv = Entry(ventana, textvariable = entradaIndividuos, width = "5", font = ("Arial", "32"), bg= "#5FEDD5")
+entradaIndiv.place(x = 445, y = 590)
+entradaIndiv.config(state = 'disable')
+
+canvas.create_text(270, 555 ,fill="black",font="Times 20 italic bold", text="Cantidad de Individuos:")
 
 """
 laberinto = seleccionCB.get()

@@ -9,23 +9,23 @@ img=cv2.imread("Prueba colores.png",1)
 
 B,G,R = img [49, 49]
 
-print("Rojo: R: " + str(R) + ", G: " + str(G) + ", B: " + str(B))
+#print("Rojo: R: " + str(R) + ", G: " + str(G) + ", B: " + str(B))
 
 
 B,G,R = img [47, 46]
 
-print("Rojo: R: " + str(R) + ", G: " + str(G) + ", B: " + str(B))
+#print("Rojo: R: " + str(R) + ", G: " + str(G) + ", B: " + str(B))
 
 
 B,G,R = img [0, 5]
 
-print("Rojo: R: " + str(R) + ", G: " + str(G) + ", B: " + str(B))
+#print("Rojo: R: " + str(R) + ", G: " + str(G) + ", B: " + str(B))
 
 fix_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 fix_image[20:25, 10:20] = [255,255,255]
 
-cv2.imwrite("Prueba colores2.png", fix_image)
+#cv2.imwrite("Prueba colores2.png", fix_image)
 
 def pintarIndividuos(listaIndividuos, laberinto):
     #img=cv2.imread("laberinto-medium.png",1)
@@ -53,5 +53,5 @@ def pintarIndividuos(listaIndividuos, laberinto):
     return
 
 #print("prueba")
-img = np.array(Image.open('laberinto-easy.png'))
-print(img[25,25][0],img[25,25][1],img[25,25][2])
+#img = np.array(Image.open('laberinto-easy.png'))
+#print(img[25,25][0],img[25,25][1],img[25,25][2])

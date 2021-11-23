@@ -1,7 +1,7 @@
 from Individuo import *
 import numpy as np
 from PIL import Image
-#from pruebasColores import pintarIndividuos
+from pruebasColores import pintarIndividuos
 import random
 """
 def revisarVecinos(x,y,lista):
@@ -19,65 +19,56 @@ def revisarVecinos(x,y,lista):
             x2 += 1
       return puntaje
 """
-def revisarParedes(x,y,lista,Ppuntaje):
-      x2 = x-2
-      puntaje = Ppuntaje
-      while x2 < x+5:
-            y2 = y-2
-            while y2 != y+5:
-                  try:
-                        if lista[x2][y2].getColor1() == 1:
-                              return 0
-                        puntaje += lista[x2][y2].getPuntaje()
-                  except:
-                        ""
-                  y2 += 1
-            x2 += 1
-      return puntaje
 
-def revisarVecinos(x,y,lista):
+def revisarVecinos(individuo,lista):
       # x = 25, y = 25
-      x2 = x-5
+      x2 = individuo.getX-5
       puntaje = 0
+      conta = 0
       while x2 < x+5:
-            y2 = y-5
+            y2 = individuo.getY-5
             while y2 != y+5:
-                  try:
-                        puntaje += lista[x2][y2].getPuntaje()
-                  except:
-                        ""
+                  for i in lista:
+                        if i != individuo:
+                              if i.getX() == x2 and i.getY() == y2:
+                                    puntaje = puntaje + i.getPuntaje()
+                                    conta += 1
                   y2 += 1
             x2 += 1
-      return puntaje
+      if conta!=0:
+            return puntaje/conta
+      return individuo.getPuntaje
 
+
+def revisarParedes(individuo,puntaje):
+      x = individuo.getX()
+      y = individuo.getY()
+      img = np.array(Image.open('laberinto-easy.png'))
+      cont = 0
+      try:
+            x -= 5
+            if img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 0:
+                  cont += 1
+            x += 10
+            if img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 0:
+                  cont += 1
+            x -= 5
+            y -= 5
+            if img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 0:
+                  cont += 1
+            y += 10
+            if img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 0:
+                  cont += 1
+      except:
+            ""
+      puntaje = puntaje*0.85
+      return puntaje
 def fitness(lista):
-      x = 0
-      while x != len(lista):
-            y = 0
-            while y != len(lista[0]):
-                  if lista[x][y].getColor() == 0:
-                        puntaje = revisarVecinos(x,y,lista)
-                        puntaje = revisarParedes(x,y,lista,puntaje)
-                        lista[x][y].setPuntaje(lista[x][y].getPuntaje()+(puntaje/100))
-                  y += 1
-            x += 1
-      return lista
-
-def revisarParedes(x,y,lista,Ppuntaje):
-      x2 = x-2
-      puntaje = Ppuntaje
-      while x2 < x+5:
-            y2 = y-2
-            while y2 != y+5:
-                  try:
-                        if lista[x2][y2].getColor1() == 1:
-                              return 0
-                        puntaje += lista[x2][y2].getPuntaje()
-                  except:
-                        ""
-                  y2 += 1
-            x2 += 1
-      return puntaje
+      puntaje = 0
+      for i in lista:
+            if i.getColor == 0:
+                 puntaje = revisarVecinos(i,lista)
+                 puntaje = revisarParedes(i,puntaje)
                   
 def generarIndividuos(laberinto):
       lista = []
@@ -256,8 +247,6 @@ def mutacion(individuo, indice):
             if not validarMax49(individuo):
                   i-=1
       return individuo
-
-print(validarMax49("001010010110"))
 
 def asignarNuevaPos(individuo, pos):
       individuo.setX(binarioADecimal(pos[0:6]))
