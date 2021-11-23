@@ -1,7 +1,7 @@
 from Individuo import *
 import numpy as np
 from PIL import Image
-from pruebasColores import pintarIndividuos
+#from pruebasColores import pintarIndividuos
 import random
 """
 def revisarVecinos(x,y,lista):
@@ -134,7 +134,7 @@ def Generaciones(kGeneraciones, laberinto):
             fitness(lista)
       pintarIndividuos(lista, laberinto)
 
-Generaciones(10, "laberinto-medium")
+#Generaciones(10, "laberinto-medium")
 """
 lista = generarTemporal()
 
@@ -173,9 +173,9 @@ def normalizarValores(listaIndividuos):
       total = 0
       listaValores = []
       for i in listaIndividuos:
-            total += i
+            total += i.getPuntaje()
       for i in listaIndividuos:
-            listaValores.append((i / total))
+            listaValores.append((i.getPuntaje() / total))
       return listaValores
 
 #print(normalizarValores([30,23,51,11,3,8]))
@@ -186,7 +186,7 @@ def seleccion(listaIndividuos):
       listaSelec = []
       #for i in range(len(listaIndividuos)):
       #      listaSelec.append([])
-      print(listaProbabilidades)
+      #print(listaProbabilidades)
       for i in range(len(listaIndividuos)):
             j = 0
             nRandom = random.random()
@@ -221,6 +221,16 @@ def agregarCeros(num, cantDigitos):
         numStr = "0" + numStr
     return numStr
 
+def binarioADecimal(binario):
+      binario = int(binario)
+      decimal = 0
+      i = 0
+      while binario != 0:
+            decimal += binario%10 * 2 ** i
+            binario = binario//10
+            i+=1
+      return decimal
+
 def generarParejas(listaIndividuos):
       listaParejas = []
       for i in range(0,len(listaIndividuos),2):  
@@ -231,28 +241,68 @@ def generarStringCruce(individuo):
       binIndividuo = agregarCeros(binarizar(individuo.getX()), 6) + agregarCeros(binarizar(individuo.getY()), 6)
       return binIndividuo
 
+def validarMax49(individuo):
+      if binarioADecimal(individuo[0:6]) <= 49 and binarioADecimal(individuo[6:]) <= 49:
+            return True
+      return False
+
+def mutacion(individuo, indice):
+      for i in range(indice):
+            puntoMutacion = random.randint(0,11)
+            if individuo[puntoMutacion] == "0":
+                  individuo = individuo[:puntoMutacion] + "1" + individuo[puntoMutacion + 1:]
+            else:
+                  individuo = individuo[:puntoMutacion] + "0" + individuo[puntoMutacion + 1:]
+            if not validarMax49(individuo):
+                  i-=1
+      return individuo
+
+print(validarMax49("001010010110"))
+
+def asignarNuevaPos(individuo, pos):
+      individuo.setX(binarioADecimal(pos[0:6]))
+      individuo.setY(binarioADecimal(pos[6:]))
+      return
+
 def cruce(listaParejas):
       nuevosIndiv = []
       for pareja in listaParejas:
             indiv1 = generarStringCruce(pareja[0])
             indiv2 = generarStringCruce(pareja[1])
             puntoCruce = random.randint(1,11)
-            print(puntoCruce)
             nuevoIndiv1 = indiv1[0:puntoCruce] + indiv2[puntoCruce:]
             nuevoIndiv2 = indiv2[0:puntoCruce] + indiv1[puntoCruce:]
-            nuevosIndiv.append(nuevoIndiv1)
-            nuevosIndiv.append(nuevoIndiv2)
+            nuevoIndiv1 = mutacion(nuevoIndiv1, 1)
+            nuevoIndiv2 = mutacion(nuevoIndiv2, 1)
+            print(nuevoIndiv1)
+            print(nuevoIndiv2)
+            asignarNuevaPos(pareja[0], nuevoIndiv1)
+            asignarNuevaPos(pareja[1], nuevoIndiv2)
+            nuevosIndiv.append(pareja[0])
+            nuevosIndiv.append(pareja[1])
+      #print(nuevosIndiv[0].getX(), nuevosIndiv[0].getY())
+      #print(nuevosIndiv[1].getX(), nuevosIndiv[1].getY())
       return nuevosIndiv
 
-print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
+
+#print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
 
 def generacion(listaIndividuos):
       listaSelec = seleccion(listaIndividuos)
       listaParejas = generarParejas(listaSelec)
-      return listaParejas
+      nuevaGeneracion = cruce(listaParejas)
+      return nuevaGeneracion
 
 
-print(generacion([30,23,51,11,3,8]))
+#print(generacion([30,23,51,11,3,8]))
+print(generacion([Individuo(10,20,20), Individuo(15,30,10)]))
+
+
+
+
+
+    
+
 
 
 

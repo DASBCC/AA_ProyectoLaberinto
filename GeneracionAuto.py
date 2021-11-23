@@ -30,5 +30,5 @@ def PrimeraGeneracion(cantIndividuos):
     pintarIndividuos(listaIndividuos)
     return
 
-PrimeraGeneracion(70)
+#PrimeraGeneracion(70)
 
