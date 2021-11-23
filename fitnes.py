@@ -90,7 +90,7 @@ def generarIndividuos(laberinto):
                         lista[x][y].setPuntaje(1000)
                   elif img[y,x][0] == 255 and img[y,x][1] == 255 and img[y,x][2] == 255:
                         lista[x][y].setColor(0)
-                        lista[x][y].setPuntaje(100)
+                        lista[x][y].setPuntaje(randint(0,100))
                   else:
                         lista[x][y].setColor(1)
                         lista[x][y].setPuntaje(0)
@@ -125,7 +125,7 @@ def Generaciones(kGeneraciones, laberinto):
             fitness(lista)
       pintarIndividuos(lista, laberinto)
 
-#Generaciones(10, "laberinto-medium")
+Generaciones(10, "laberinto-medium")
 """
 lista = generarTemporal()
 
@@ -164,9 +164,9 @@ def normalizarValores(listaIndividuos):
       total = 0
       listaValores = []
       for i in listaIndividuos:
-            total += i.getPuntaje()
+            total += i
       for i in listaIndividuos:
-            listaValores.append((i.getPuntaje() / total))
+            listaValores.append((i / total))
       return listaValores
 
 #print(normalizarValores([30,23,51,11,3,8]))
@@ -177,7 +177,7 @@ def seleccion(listaIndividuos):
       listaSelec = []
       #for i in range(len(listaIndividuos)):
       #      listaSelec.append([])
-      #print(listaProbabilidades)
+      print(listaProbabilidades)
       for i in range(len(listaIndividuos)):
             j = 0
             nRandom = random.random()
@@ -212,16 +212,6 @@ def agregarCeros(num, cantDigitos):
         numStr = "0" + numStr
     return numStr
 
-def binarioADecimal(binario):
-      binario = int(binario)
-      decimal = 0
-      i = 0
-      while binario != 0:
-            decimal += binario%10 * 2 ** i
-            binario = binario//10
-            i+=1
-      return decimal
-
 def generarParejas(listaIndividuos):
       listaParejas = []
       for i in range(0,len(listaIndividuos),2):  
@@ -232,6 +222,7 @@ def generarStringCruce(individuo):
       binIndividuo = agregarCeros(binarizar(individuo.getX()), 6) + agregarCeros(binarizar(individuo.getY()), 6)
       return binIndividuo
 
+<<<<<<< Updated upstream
 def validarMax49(individuo):
       if binarioADecimal(individuo[0:6]) <= 49 and binarioADecimal(individuo[6:]) <= 49:
             return True
@@ -253,45 +244,30 @@ def asignarNuevaPos(individuo, pos):
       individuo.setY(binarioADecimal(pos[6:]))
       return
 
+=======
+>>>>>>> Stashed changes
 def cruce(listaParejas):
       nuevosIndiv = []
       for pareja in listaParejas:
             indiv1 = generarStringCruce(pareja[0])
             indiv2 = generarStringCruce(pareja[1])
             puntoCruce = random.randint(1,11)
+            print(puntoCruce)
             nuevoIndiv1 = indiv1[0:puntoCruce] + indiv2[puntoCruce:]
             nuevoIndiv2 = indiv2[0:puntoCruce] + indiv1[puntoCruce:]
-            nuevoIndiv1 = mutacion(nuevoIndiv1, 1)
-            nuevoIndiv2 = mutacion(nuevoIndiv2, 1)
-            print(nuevoIndiv1)
-            print(nuevoIndiv2)
-            asignarNuevaPos(pareja[0], nuevoIndiv1)
-            asignarNuevaPos(pareja[1], nuevoIndiv2)
-            nuevosIndiv.append(pareja[0])
-            nuevosIndiv.append(pareja[1])
-      #print(nuevosIndiv[0].getX(), nuevosIndiv[0].getY())
-      #print(nuevosIndiv[1].getX(), nuevosIndiv[1].getY())
+            nuevosIndiv.append(nuevoIndiv1)
+            nuevosIndiv.append(nuevoIndiv2)
       return nuevosIndiv
 
-
-#print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
+print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
 
 def generacion(listaIndividuos):
       listaSelec = seleccion(listaIndividuos)
       listaParejas = generarParejas(listaSelec)
-      nuevaGeneracion = cruce(listaParejas)
-      return nuevaGeneracion
+      return listaParejas
 
 
-#print(generacion([30,23,51,11,3,8]))
-print(generacion([Individuo(10,20,20), Individuo(15,30,10)]))
-
-
-
-
-
-    
-
+print(generacion([30,23,51,11,3,8]))
 
 
 
