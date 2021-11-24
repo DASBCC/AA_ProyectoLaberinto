@@ -19,9 +19,10 @@ canvas.pack(expand=YES, fill=BOTH)
 def ejecutarAlgoritmo():
 
     kGeneraciones = entradaGeneraciones.get()
+    cantIndividuos = entradaIndividuos.get()
     laberinto = seleccionCB.get()
 
-    Generaciones(kGeneraciones, laberinto)
+    Generaciones(kGeneraciones, cantIndividuos, laberinto)
 
     if laberinto == "laberinto-easy":
         imgLabG= (Image.open("laberinto-easy-Generacion.png"))
@@ -29,6 +30,9 @@ def ejecutarAlgoritmo():
     elif laberinto == "laberinto-medium":
         imgLabG= (Image.open("laberinto-medium-Generacion.png"))
         imgLabP= (ImageTk.PhotoImage(file = "laberinto-medium-Generacion.png"))
+    elif laberinto == "laberinto-hard":
+        imgLabG= (Image.open("laberinto-hard-Generacion.png"))
+        imgLabP= (ImageTk.PhotoImage(file = "laberinto-hard-Generacion.png"))
     #foto = PhotoImage(file = "laberinto-easy.png")
     #foto = PhotoImage(file = "laberinto-easy.png")
     #labelFoto = Label(ventana, image = foto)
@@ -68,6 +72,9 @@ def cargarLaberinto():
     elif laberinto == "laberinto-medium":
         imgLabG= (Image.open("laberinto-medium.png"))
         imgLabP= (ImageTk.PhotoImage(file = "laberinto-medium.png"))
+    elif laberinto == "laberinto-hard":
+        imgLabG= (Image.open("laberinto-hard.png"))
+        imgLabP= (ImageTk.PhotoImage(file = "laberinto-hard.png"))
     #foto = PhotoImage(file = "laberinto-easy.png")
     #foto = PhotoImage(file = "laberinto-easy.png")
     #labelFoto = Label(ventana, image = foto)
@@ -99,6 +106,7 @@ def cargarLaberinto():
     boton3.config(state = 'normal')
     entradaGen.config(state = 'normal')
     entradaIndiv.config(state = 'normal')
+    drop.config(state = 'disable')
     return
 
 def reiniciarCanvas():
@@ -113,6 +121,7 @@ def reiniciarCanvas():
     boton3.config(state = 'disable')
     entradaIndividuos.set(0)
     entradaGeneraciones.set(0)
+    drop.config(state = 'normal')
     return
 
 #CANVAS DE LAS IMÁGENES
@@ -143,7 +152,7 @@ boton3.place(x = 445, y = 450 )
 boton3.config(state = "disable")
 #COMBOBOX
 
-opciones = ["laberinto-easy", "laberinto-medium"]
+opciones = ["laberinto-easy", "laberinto-medium", "laberinto-hard"]
 
 seleccionCB = StringVar()
 drop = OptionMenu(ventana, seleccionCB, *opciones)

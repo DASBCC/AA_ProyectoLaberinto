@@ -1,6 +1,8 @@
 from Individuo import *
-from random import randint
+import random
 from pruebasColores import pintarIndividuos
+import numpy as np
+from PIL import Image
 
 def validarPosicion(listaIndividuos, nuevoIndividuo):
     for individuo in listaIndividuos:
@@ -8,15 +10,15 @@ def validarPosicion(listaIndividuos, nuevoIndividuo):
             return False
     return True
 
-def PrimeraGeneracion(cantIndividuos):
+def PrimeraGeneracion(cantIndividuos, laberinto):
     if (cantIndividuos > 2500):
         return print("Cantidad de individuos inválida")
     listaIndividuos = []
     while cantIndividuos != 0:
-        x = randint(0,49)
-        y = randint(0,49)
+        x = int(random.uniform(0,49))
+        y = int(random.uniform(0,49))
         individuo = Individuo(x, y, 0)
-        individuo.setPuntaje(randint(1,1000))
+        individuo.setPuntaje(random.randint(1,1000))
 
         if not (validarPosicion(listaIndividuos, individuo)):
             continue
