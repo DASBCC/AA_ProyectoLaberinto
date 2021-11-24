@@ -3,7 +3,6 @@ import numpy as np
 from PIL import Image
 from pruebasColores import pintarIndividuos
 import random
-from GeneracionAuto import PrimeraGeneracion
 """
 def revisarVecinos(x,y,lista):
       # x = 25, y = 25
@@ -26,9 +25,9 @@ def revisarVecinos(individuo,lista):
       x2 = individuo.getX-5
       puntaje = 0
       conta = 0
-      while x2 < individuo.getX()+5:
+      while x2 < x+5:
             y2 = individuo.getY-5
-            while y2 != individuo.getY()+5:
+            while y2 != y+5:
                   for i in lista:
                         if i != individuo:
                               if i.getX() == x2 and i.getY() == y2:
@@ -41,15 +40,10 @@ def revisarVecinos(individuo,lista):
       return individuo.getPuntaje
 
 
-def revisarParedes(individuo,puntaje,laberinto):
+def revisarParedes(individuo,puntaje):
       x = individuo.getX()
       y = individuo.getY()
-      if laberinto == "laberinto-easy":
-            img = np.array(Image.open('laberinto-easy.png'))
-      elif laberinto == "laberinto-medium":
-            img = np.array(Image.open('laberinto-medium.png'))
-      elif laberinto == "laberinto-hard":
-            img = np.array(Image.open('laberinto-hard.png'))
+      img = np.array(Image.open('laberinto-easy.png'))
       cont = 0
       try:
             x -= 5
@@ -69,13 +63,12 @@ def revisarParedes(individuo,puntaje,laberinto):
             ""
       puntaje = puntaje*0.85
       return puntaje
-def fitness(lista,laberinto):
+def fitness(lista):
       puntaje = 0
       for i in lista:
             if i.getColor == 0:
                  puntaje = revisarVecinos(i,lista)
-                 puntaje = revisarParedes(i,puntaje,laberinto)
-                 i.setPuntaje(puntaje)
+                 puntaje = revisarParedes(i,puntaje)
                   
 def generarIndividuos(laberinto):
       lista = []
@@ -84,8 +77,6 @@ def generarIndividuos(laberinto):
             img = np.array(Image.open('laberinto-easy.png'))
       elif laberinto == "laberinto-medium":
             img = np.array(Image.open('laberinto-medium.png'))
-      elif laberinto == "laberinto-hard":
-            img = np.array(Image.open('laberinto-hard.png'))
 
       for x in range(50):
             lista.append([])
@@ -103,6 +94,7 @@ def generarIndividuos(laberinto):
                   else:
                         lista[x][y].setColor(1)
                         lista[x][y].setPuntaje(0)
+      print(lista[25][25].getColor())
       return lista
 
 #generarIndividuos("laberinto-easy")
@@ -127,13 +119,10 @@ def generarTemporal():
                         lista[x][y].setPuntaje(0)
       return lista
 
-def Generaciones(kGeneraciones, cantIndividuos, laberinto):
-      #lista = generarIndividuos(laberinto)
-      lista = PrimeraGeneracion(cantIndividuos,laberinto)
+def Generaciones(kGeneraciones, laberinto):
+      lista = generarIndividuos(laberinto)
       for i in range(kGeneraciones):
-            alterGeneracion(lista, laberinto)
-            fitness(lista,laberinto)
-            print("Generación #" + str(i+1))
+            fitness(lista)
       pintarIndividuos(lista, laberinto)
 
 Generaciones(10, "laberinto-medium")
@@ -175,7 +164,11 @@ def normalizarValores(listaIndividuos):
       total = 0
       listaValores = []
       for i in listaIndividuos:
+<<<<<<< HEAD
             total += i
+=======
+            total += i.getPuntaje()
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
       for i in listaIndividuos:
             listaValores.append((i / total))
       return listaValores
@@ -192,7 +185,7 @@ def seleccion(listaIndividuos):
       for i in range(len(listaIndividuos)):
             j = 0
             nRandom = random.random()
-            #print(nRandom)
+            print(nRandom)
             for probabilidad in listaProbabilidades: 
                   if probabilidad[0] <= nRandom < probabilidad[1]:
                         listaSelec.append(listaIndividuos[j])
@@ -236,13 +229,11 @@ def generarStringCruce(individuo):
 <<<<<<< Updated upstream
 def validarMax49(individuo):
       if binarioADecimal(individuo[0:6]) <= 49 and binarioADecimal(individuo[6:]) <= 49:
-            #print("x " + str(binarioADecimal(individuo[0:6])) + " y " + str(binarioADecimal(individuo[6:])))
             return True
       return False
 
 def mutacion(individuo, indice):
-      i = 0
-      while i < indice:
+      for i in range(indice):
             puntoMutacion = random.randint(0,11)
             if individuo[puntoMutacion] == "0":
                   individuo = individuo[:puntoMutacion] + "1" + individuo[puntoMutacion + 1:]
@@ -250,39 +241,19 @@ def mutacion(individuo, indice):
                   individuo = individuo[:puntoMutacion] + "0" + individuo[puntoMutacion + 1:]
             if not validarMax49(individuo):
                   i-=1
-            i+=1
       return individuo
 
 def asignarNuevaPos(individuo, pos):
       individuo.setX(binarioADecimal(pos[0:6]))
       individuo.setY(binarioADecimal(pos[6:]))
       return
-def asignarColor(individuo, laberinto):
-      x = individuo.getX()
-      y = individuo.getY()
-      
-      if (laberinto == 'laberinto-easy'):
-            img = np.array(Image.open('laberinto-easy.png'))
-      elif (laberinto == 'laberinto-medium'):
-            img = np.array(Image.open('laberinto-medium.png'))
-      elif (laberinto == 'laberinto-hard'):
-            img = np.array(Image.open('laberinto-hard.png'))
 
-      if img[y,x][0] == 0 and img[y,x][1] == 255 and img[y,x][2] == 0: # verde
-            individuo.setColor(2)
-            #individuo.setPuntaje(1000)
-      elif img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 255: # azul
-            individuo.setColor(3)
-            #individuo.setPuntaje(1000)
-      elif img[y,x][0] == 255 and img[y,x][1] == 255 and img[y,x][2] == 255:
-            individuo.setColor(0)
-            #si está en blanco el color se determinará en el fitness
-      else:
-            individuo.setColor(1)
-            #individuo.setPuntaje(0)
-      return
-
-def cruce(listaParejas, laberinto):
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
+def cruce(listaParejas):
       nuevosIndiv = []
       for pareja in listaParejas:
             indiv1 = generarStringCruce(pareja[0])
@@ -291,37 +262,53 @@ def cruce(listaParejas, laberinto):
             print(puntoCruce)
             nuevoIndiv1 = indiv1[0:puntoCruce] + indiv2[puntoCruce:]
             nuevoIndiv2 = indiv2[0:puntoCruce] + indiv1[puntoCruce:]
+<<<<<<< HEAD
             nuevosIndiv.append(nuevoIndiv1)
             nuevosIndiv.append(nuevoIndiv2)
+=======
             nuevoIndiv1 = mutacion(nuevoIndiv1, 1)
             nuevoIndiv2 = mutacion(nuevoIndiv2, 1)
-            #print(nuevoIndiv1)
-            #print(nuevoIndiv2)
+            print(nuevoIndiv1)
+            print(nuevoIndiv2)
             asignarNuevaPos(pareja[0], nuevoIndiv1)
             asignarNuevaPos(pareja[1], nuevoIndiv2)
-            asignarColor(pareja[0], laberinto)
-            asignarColor(pareja[1], laberinto)
             nuevosIndiv.append(pareja[0])
             nuevosIndiv.append(pareja[1])
       #print(nuevosIndiv[0].getX(), nuevosIndiv[0].getY())
       #print(nuevosIndiv[1].getX(), nuevosIndiv[1].getY())
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
       return nuevosIndiv
 
 print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
 
-def alterGeneracion(listaIndividuos, laberinto):
+<<<<<<< HEAD
+def generacion(listaIndividuos):
       listaSelec = seleccion(listaIndividuos)
       listaParejas = generarParejas(listaSelec)
       return listaParejas
 
 
 print(generacion([30,23,51,11,3,8]))
-      nuevaGeneracion = cruce(listaParejas, laberinto)
+=======
+#print(cruce([[Individuo(10,20,20), Individuo(15,30,10)]]))
+
+def generacion(listaIndividuos):
+      listaSelec = seleccion(listaIndividuos)
+      listaParejas = generarParejas(listaSelec)
+      nuevaGeneracion = cruce(listaParejas)
       return nuevaGeneracion
 
 
 #print(generacion([30,23,51,11,3,8]))
-#print(alterGeneracion([Individuo(10,20,20), Individuo(15,30,10)]))
+print(generacion([Individuo(10,20,20), Individuo(15,30,10)]))
+
+
+
+
+
+    
+
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 
 
 

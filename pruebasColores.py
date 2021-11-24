@@ -34,24 +34,21 @@ def pintarIndividuos(listaIndividuos, laberinto):
         img = np.array(Image.open('laberinto-easy.png'))
     elif laberinto == "laberinto-medium":
         img = np.array(Image.open('laberinto-medium.png'))
-    elif laberinto == "laberinto-hard":
-        img = np.array(Image.open('laberinto-hard.png'))
     #img = np.array(Image.open('laberinto-easy.png'))
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     for i in listaIndividuos:
-        if i.getColor() == 1 or i.getColor() == 2 or i.getColor() == 3:
-            continue
-        x = i.getX()
-        y = i.getY()
-        img[y,x] = [0,0,255*i.getPuntaje()/1000]
+        for j in i:
+            if j.getColor() == 1 or j.getColor() == 2 or j.getColor() == 3:
+                continue
+            x = j.getX()
+            y = j.getY()
+            img[y,x] = [0,0,255*j.getPuntaje()/100]
 
     if laberinto == "laberinto-easy":
         cv2.imwrite("laberinto-easy-Generacion.png", img)
     elif laberinto == "laberinto-medium":
         cv2.imwrite("laberinto-medium-Generacion.png", img)
-    elif laberinto == "laberinto-hard":
-        cv2.imwrite("laberinto-hard-Generacion.png", img)
     
     return
 
