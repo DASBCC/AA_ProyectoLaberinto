@@ -168,6 +168,9 @@ def normalizarValores(listaIndividuos):
             total += i
 =======
             total += i.getPuntaje()
+<<<<<<< HEAD
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
+=======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
       for i in listaIndividuos:
             listaValores.append((i / total))
@@ -249,8 +252,11 @@ def asignarNuevaPos(individuo, pos):
       return
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 =======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 def cruce(listaParejas):
@@ -308,6 +314,9 @@ print(generacion([Individuo(10,20,20), Individuo(15,30,10)]))
 
     
 
+<<<<<<< HEAD
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
+=======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 
 
