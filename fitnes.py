@@ -169,6 +169,9 @@ def normalizarValores(listaIndividuos):
 =======
             total += i.getPuntaje()
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
+=======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 =======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
@@ -253,8 +256,11 @@ def asignarNuevaPos(individuo, pos):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 =======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 =======
@@ -315,6 +321,9 @@ print(generacion([Individuo(10,20,20), Individuo(15,30,10)]))
     
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
+=======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
 =======
 >>>>>>> parent of 4bc5af5 (Laberinto HARD agregado, implementación de las funciones)
