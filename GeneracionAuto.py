@@ -18,7 +18,28 @@ def PrimeraGeneracion(cantIndividuos, laberinto):
         x = int(random.uniform(0,49))
         y = int(random.uniform(0,49))
         individuo = Individuo(x, y, 0)
-        individuo.setPuntaje(random.randint(1,1000))
+
+        if (laberinto == 'laberinto-easy'):
+            img = np.array(Image.open('laberinto-easy.png'))
+        elif (laberinto == 'laberinto-medium'):
+            img = np.array(Image.open('laberinto-medium.png'))
+        elif (laberinto == 'laberinto-hard'):
+            img = np.array(Image.open('laberinto-hard.png'))
+
+        if img[y,x][0] == 0 and img[y,x][1] == 255 and img[y,x][2] == 0: # verde
+            individuo.setColor(2)
+            individuo.setPuntaje(1000)
+        elif img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 255: # azul
+            individuo.setColor(3)
+            individuo.setPuntaje(1000)
+        elif img[y,x][0] == 255 and img[y,x][1] == 255 and img[y,x][2] == 255:
+            individuo.setColor(0)
+            individuo.setPuntaje(random.randint(50,200))
+            #individuo.setPuntaje(1000)
+        else:
+            individuo.setColor(1)
+            individuo.setPuntaje(0)
+
 
         if not (validarPosicion(listaIndividuos, individuo)):
             continue
@@ -29,8 +50,6 @@ def PrimeraGeneracion(cantIndividuos, laberinto):
     for i in listaIndividuos:
         print("Posicion x: " + str(i.getX()) + ", Posicion Y: " + str(i.getY()))
 
-    pintarIndividuos(listaIndividuos)
-    return
+    return listaIndividuos
 
-#PrimeraGeneracion(70)
 

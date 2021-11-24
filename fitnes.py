@@ -23,12 +23,12 @@ def revisarVecinos(x,y,lista):
 
 def revisarVecinos(individuo,lista):
       # x = 25, y = 25
-      x2 = individuo.getX-5
+      x2 = individuo.getX()-3
       puntaje = 0
       conta = 0
-      while x2 < individuo.getX()+5:
-            y2 = individuo.getY-5
-            while y2 != individuo.getY()+5:
+      while x2 < individuo.getX()+3:
+            y2 = individuo.getY()-3
+            while y2 != individuo.getY()+3:
                   for i in lista:
                         if i != individuo:
                               if i.getX() == x2 and i.getY() == y2:
@@ -38,7 +38,8 @@ def revisarVecinos(individuo,lista):
             x2 += 1
       if conta!=0:
             return puntaje/conta
-      return individuo.getPuntaje
+
+      return 0
 
 
 def revisarParedes(individuo,puntaje,laberinto):
@@ -67,8 +68,16 @@ def revisarParedes(individuo,puntaje,laberinto):
                   cont += 1
       except:
             ""
-      puntaje = puntaje*0.85
+      if (cont == 1):
+            puntaje = puntaje*0.75
+      elif (cont == 2):
+            puntaje = puntaje*0.50
+      elif (cont == 3):
+            puntaje = puntaje*0.25
+      elif (cont == 4):
+            puntaje = 0
       return puntaje
+
 def fitness(lista,laberinto):
       puntaje = 0
       for i in lista:
@@ -77,7 +86,7 @@ def fitness(lista,laberinto):
                  puntaje = revisarParedes(i,puntaje,laberinto)
                  i.setPuntaje(puntaje)
       return lista
-                  
+"""                
 def generarIndividuos(laberinto):
       lista = []
 
@@ -128,6 +137,8 @@ def generarTemporal():
                         lista[x][y].setPuntaje(0)
       return lista
 
+
+"""
 def Generaciones(kGeneraciones, cantIndividuos, laberinto):
       #lista = generarIndividuos(laberinto)
       lista = PrimeraGeneracion(cantIndividuos,laberinto)
@@ -282,10 +293,10 @@ def asignarColor(individuo, laberinto):
 
       if img[y,x][0] == 0 and img[y,x][1] == 255 and img[y,x][2] == 0: # verde
             individuo.setColor(2)
-            individuo.setPuntaje(1000)
+            #individuo.setPuntaje(1000)
       elif img[y,x][0] == 0 and img[y,x][1] == 0 and img[y,x][2] == 255: # azul
             individuo.setColor(3)
-            individuo.setPuntaje(1000)
+            #individuo.setPuntaje(1000)
       elif img[y,x][0] == 255 and img[y,x][1] == 255 and img[y,x][2] == 255:
             individuo.setColor(0)
             #si está en blanco el color se determinará en el fitness
